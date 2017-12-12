@@ -167,6 +167,15 @@ void SceneText::Init()
 	MeshBuilder::GetInstance()->GenerateRay("laser", 10.0f);
 	MeshBuilder::GetInstance()->GenerateQuad("GRIDMESH", Color(1, 1, 1), 10.f);
 
+	// Dick
+	MeshBuilder::GetInstance()->GenerateOBJ("Dick", "OBJ//dick.obj");
+	MeshBuilder::GetInstance()->GenerateOBJ("DickHead", "OBJ//dick_head.obj");
+	MeshBuilder::GetInstance()->GenerateOBJ("DickWhy", "OBJ//dick_why.obj");
+
+	// Door
+	MeshBuilder::GetInstance()->GenerateOBJ("Door", "OBJ//door.obj");
+	MeshBuilder::GetInstance()->GetMesh("Door")->textureID = LoadTGA("Image//Door.tga");
+
 	// Set up the Spatial Partition and pass it to the EntityManager to manage
 	CSpatialPartition::GetInstance()->Init(100, 100, 10, 10);
 	CSpatialPartition::GetInstance()->SetMesh("GRIDMESH");
@@ -197,6 +206,15 @@ void SceneText::Init()
 	aCube->SetCollider(true);
 	aCube->SetAABB(Vector3(0.5f, 0.5f, 0.5f), Vector3(-0.5f, -0.5f, -0.5f));
 	aCube->InitLOD("cube", "sphere", "cubeSG");
+
+	// Dick object
+	//GenericEntity* aDick = Create::Entity("DickHead", Vector3(0.f, 0.f, 0.f));
+	//aDick->SetCollider(true);
+	//aDick->SetAABB(Vector3(0.5f, 0.5f, 0.5f), Vector3(-0.5f, -0.5f, -0.5f));
+	//aDick->InitLOD("DickHead", "Dick", "DickWhy");
+
+	// Door object
+	GenericEntity* aDoor = Create::Entity("Door", Vector3(0.f, 0.f, 0.f), Vector3(5.f, 5.f, 5.f));
 
 	// Add the pointer to this new entity to the Scene Graph
 	CSceneNode* theNode = CSceneGraph::GetInstance()->AddNode(aCube);
@@ -381,8 +399,10 @@ void SceneText::Update(double dt)
 	std::ostringstream ss3;
 	ss3.precision(4);
 	int ammoOutput = 0;
+	int totalAmmo = 0;
 	ammoOutput = playerInfo->GetPrimaryAmmo();
-	ss3 << "Ammo:" << ammoOutput;
+	totalAmmo = playerInfo->GetTotalPrimaryAmmo();
+	ss3 << "Ammo:" << ammoOutput << "/" << totalAmmo;
 	textObj[4]->SetText(ss3.str());
 }
 
