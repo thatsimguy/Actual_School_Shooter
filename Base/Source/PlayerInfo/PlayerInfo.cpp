@@ -22,6 +22,7 @@ CPlayerInfo::CPlayerInfo(void)
 	, m_bFallDownwards(false)
 	, m_dFallSpeed(0.0)
 	, m_dFallAcceleration(-10.0)
+	, m_dElapsedTime(0)
 	, attachedCamera(NULL)
 	, m_pTerrain(NULL)
 	, primaryWeapon(NULL)
@@ -222,15 +223,20 @@ void CPlayerInfo::UpdateJumpUpwards(double dt)
 	if (m_bJumpUpwards == false)
 		return;
 
+	// Update the jump's elapsed time
+	m_dElapsedTime += dt;
+
 	// Update position and target y values
 	// Use SUVAT equation to update the change in position and target
 	// s = u * t + 0.5 * a * t ^ 2
-	position.y += (float)(m_dJumpSpeed * dt + 0.5 * m_dJumpAcceleration * dt * dt);
-	target.y += (float)(m_dJumpSpeed*dt + 0.5 * m_dJumpAcceleration * dt * dt);
+	position.y += (float)(m_dJumpSpeed * m_dElapsedTime +
+		0.5 * m_dJumpAcceleration * m_dElapsedTime * m_dElapsedTime);
+	target.y += (float)(m_dJumpSpeed * m_dElapsedTime +
+		0.5 * m_dJumpAcceleration * m_dElapsedTime * m_dElapsedTime);
 	// Use this equation to calculate final velocity, v
-	// SUVAT: v = u + a * t;
-	// v is m_dJumpSpeed AFTER updating using SUVAT where u is the initial speed and is equal to m_dJumpSpeed
-	m_dJumpSpeed = m_dJumpSpeed + m_dJumpAcceleration * dt;
+	// SUVAT: v = u + a * t; v is m_dJumpSpeed AFTER updating using SUVAT where u is 
+	// the initial speed and is equal to m_dJumpSpeed
+	m_dJumpSpeed = m_dJumpSpeed + m_dJumpAcceleration * m_dElapsedTime;
 	// Check if the jump speed is less than zero, then it should be falling
 	if (m_dJumpSpeed < 0.0)
 	{
@@ -238,6 +244,7 @@ void CPlayerInfo::UpdateJumpUpwards(double dt)
 		m_bJumpUpwards = false;
 		m_dFallSpeed = 0.0;
 		m_bFallDownwards = true;
+		m_dElapsedTime = 0.0;
 	}
 }
 
@@ -247,15 +254,20 @@ void CPlayerInfo::UpdateFreeFall(double dt)
 	if (m_bFallDownwards == false)
 		return;
 
-	// Update position and target y values
+	// Update the jump's elapsed time
+	m_dElapsedTime += dt;
+
+	// Update position and target y values.
 	// Use SUVAT equation to update the change in position and target
 	// s = u * t + 0.5 * a * t ^ 2
-	position.y += (float)(m_dFallSpeed * dt + 0.5 * m_dJumpAcceleration * dt * dt);
-	target.y += (float)(m_dFallSpeed * dt + 0.5 * m_dJumpAcceleration * dt * dt);
+	position.y += (float)(m_dFallSpeed * m_dElapsedTime +
+		0.5 * m_dJumpAcceleration * m_dElapsedTime * m_dElapsedTime);
+	target.y += (float)(m_dFallSpeed * m_dElapsedTime +
+		0.5 * m_dJumpAcceleration * m_dElapsedTime * m_dElapsedTime);
 	// Use this equation to calculate final velocity, v
 	// SUVAT: v = u + a * t;
 	// v is m_dJumpSpeed AFTER updating using SUVAT where u is the initial speed and is equal to m_dJumpSpeed
-	m_dFallSpeed = m_dFallSpeed + m_dFallAcceleration * dt;
+	m_dFallSpeed = m_dFallSpeed + m_dFallAcceleration * m_dElapsedTime;
 	// Check if the jump speed is below terrain, then it should be reset to terrain height
 	if (position.y < m_pTerrain->GetTerrainHeight(position))
 	{
@@ -264,6 +276,7 @@ void CPlayerInfo::UpdateFreeFall(double dt)
 		target = position + viewDirection;
 		m_dFallSpeed = 0.0;
 		m_bFallDownwards = false;
+		m_dElapsedTime = 0.0;
 	}
 }
 
@@ -401,6 +414,36 @@ void CPlayerInfo::Update(double dt)
 		}
 	}
 
+	//Update the camera direction based on mouse move
+	//{
+	//	Vector3 viewUV = (target - position).Normalized();
+	//	Vector3 rightUV;
+
+	//	if (camera_yaw != 0.0)
+	//	{
+	//		float yaw = (float)(-m_dSpeed * camera_yaw * (float)dt);
+	//		Mtx44 rotation;
+	//		rotation.SetToRotation(yaw, 0, 1, 0);
+	//		viewUV = rotation * viewUV;
+	//		target = position + viewUV;
+	//		rightUV = viewUV.Cross(up);
+	//		rightUV.y = 0;
+	//		rightUV.Normalize();
+	//		up = rightUV.Cross(viewUV).Normalized();
+	//	}
+	//	{
+	//		float pitch = (float)(-m_dSpeed * camera_pitch * (float)dt);
+	//		rightUV = viewUV.Cross(up);
+	//		rightUV.y = 0;
+	//		rightUV.Normalize();
+	//		up = rightUV.Cross(viewUV).Normalized();
+	//		Mtx44 rotation;
+	//		rotation.SetToRotation(pitch, rightUV.x, rightUV.y, rightUV.z);
+	//		viewUV = rotation * viewUV;
+	//		target = position + viewUV;
+	//	}
+	//}
+
 	// If the user presses SPACEBAR, then make him jump
 	if (KeyboardController::GetInstance()->IsKeyDown(VK_SPACE) &&
 		position.y == m_pTerrain->GetTerrainHeight(position))
@@ -440,7 +483,7 @@ void CPlayerInfo::Update(double dt)
 	}
 
 	// If the user presses R key, then reset the view to default values
-	if (KeyboardController::GetInstance()->IsKeyDown('P'))
+	if (KeyboardController::GetInstance()->IsKeyDown('R'))
 	{
 		Reset();
 	}
