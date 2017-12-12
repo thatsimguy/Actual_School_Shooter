@@ -146,6 +146,12 @@ void SceneText::Init()
 	MeshBuilder::GetInstance()->GetMesh("GEO_GRASS_LIGHTGREEN")->textureID = LoadTGA("Image//grass_lightgreen.tga");
 	MeshBuilder::GetInstance()->GenerateCube("cubeSG", Color(1.0f, 0.64f, 0.0f), 1.0f);
 
+
+	MeshBuilder::GetInstance()->GenerateOBJ("CokeCola", "OBJ//Coke_UnRendered.obj");
+	MeshBuilder::GetInstance()->GetMesh("CokeCola")->textureID = LoadTGA("Image//Red.tga");
+	MeshBuilder::GetInstance()->GenerateOBJ("Coke", "OBJ//Coke.obj");
+	MeshBuilder::GetInstance()->GetMesh("Coke")->textureID = LoadTGA("Image//coke-label.tga");
+
 	MeshBuilder::GetInstance()->GenerateQuad("SKYBOX_FRONT", Color(1, 1, 1), 1.f);
 	MeshBuilder::GetInstance()->GenerateQuad("SKYBOX_BACK", Color(1, 1, 1), 1.f);
 	MeshBuilder::GetInstance()->GenerateQuad("SKYBOX_LEFT", Color(1, 1, 1), 1.f);
@@ -171,6 +177,21 @@ void SceneText::Init()
 	// Create entities into the scene
 	Create::Entity("reference", Vector3(0.0f, 0.0f, 0.0f)); // Reference
 	Create::Entity("lightball", Vector3(lights[0]->position.x, lights[0]->position.y, lights[0]->position.z)); // Lightball
+
+	//Create::Entity("Coke", Vector3(10.0f, -8.0f, 0.0f));
+
+	GenericEntity *CokeCan = Create::Entity("Coke", Vector3(10, -10.0f, 0.0f), Vector3(5, 5, 5));
+	CokeCan->SetCollider(true);
+	CokeCan->SetAABB(Vector3(11.5, 11.5, 11.5), Vector3(-11.5, -11.5, -11.5));
+	CokeCan->InitLOD("Coke", "CokeCola","sphere");
+
+
+
+
+
+
+
+
 
 	GenericEntity* aCube = Create::Entity("cube", Vector3(-20.0f, 0.0f, -20.0f));
 	aCube->SetCollider(true);
