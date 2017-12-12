@@ -483,7 +483,7 @@ void CPlayerInfo::Update(double dt)
 	}
 
 	// If the user presses R key, then reset the view to default values
-	if (KeyboardController::GetInstance()->IsKeyDown('R'))
+	if (KeyboardController::GetInstance()->IsKeyDown('P'))
 	{
 		Reset();
 	}

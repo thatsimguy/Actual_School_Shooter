@@ -95,6 +95,12 @@ public:
 		return primaryWeapon->GetMagRound();
 	}
 
+	// Get total amount of ammo left
+	int GetTotalPrimaryAmmo(void) const
+	{
+		return primaryWeapon->GetTotalRound();
+	}
+
 	// Constrain the position within the borders
 	void Constrain(void);
 
