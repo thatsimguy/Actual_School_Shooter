@@ -109,13 +109,16 @@ void CEnemy::SetPos(const Vector3& pos)
 // Set target
 void CEnemy::SetTarget(const Vector3& target)
 {
+	//this->target.Set(target.x, target.y, target.z);
 	this->target = target;
 }
+
 // Set Up
 void CEnemy::SetUp(const Vector3& up)
 {
 	this->up = up;
 }
+
 // Set the boundary for the player info
 void CEnemy::SetBoundary(Vector3 max, Vector3 min)
 {
@@ -185,9 +188,16 @@ void CEnemy::Constrain(void)
 	if (position.z < minBoundary.z + 1.0f)
 		position.z = minBoundary.z + 1.0f;
 
+	// Reached target, set new target
 	if (abs(((target.x - position.x) * (target.x - position.x) - (target.z - position.z)*(target.z - position.z))) < m_dSpeed)
 	{
 		target = GenerateTarget();
+	}
+
+	// Reached door, delete
+	if (abs(((doorLocation.x - position.x) * (doorLocation.x - position.x) - (doorLocation.z - position.z)*(doorLocation.z - position.z))) < m_dSpeed)
+	{
+		SetIsDone(true);
 	}
 
 	// if the y position is not equal to terrain height at that position, 
@@ -226,4 +236,10 @@ Vector3 CEnemy::GenerateTarget(void)
 void CEnemy::SetRandomSeed(const int m_iSeed)
 {
 	this->m_iSeed = m_iSeed;
+}
+
+// Set door location
+void CEnemy::SetDoorLocation(const Vector3& doorLocation)
+{
+	this->doorLocation = doorLocation;
 }

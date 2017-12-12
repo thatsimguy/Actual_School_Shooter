@@ -193,7 +193,12 @@ void SceneText::Init()
 	//aDick->InitLOD("DickHead", "Dick", "DickWhy");
 
 	// Door object
-	GenericEntity* aDoor = Create::Entity("Door", Vector3(0.f, 0.f, 0.f), Vector3(5.f, 5.f, 5.f));
+	m_doorLocation = Vector3(10.f, -10.f, 10.f);
+	//Vector3 doorLocation = Vector3(10.f, -10.f, 10.f);
+	GenericEntity* aDoor = Create::Asset("Door", m_doorLocation, Vector3(5.f, 5.f, 5.f));
+	aDoor->SetCollider(true);
+	aDoor->SetAABB(Vector3(0.2f, 0.2f, 0.2f), Vector3(-0.5f, -0.5f, -0.5f));
+	EntityManager::GetInstance()->AddEntity(aDoor, false);
 
 	// Add the pointer to this new entity to the Scene Graph
 	CSceneNode* theNode = CSceneGraph::GetInstance()->AddNode(aCube);
@@ -255,7 +260,11 @@ void SceneText::Init()
 		theEnemy->SetRandomSeed(rand());
 		theEnemy->Init(x, y);
 		theEnemy->SetTerrain(groundEntity);
-		theEnemy->SetTarget(theEnemy->GenerateTarget());
+
+		// Target is the door (exit)
+		theEnemy->SetTarget(Vector3(m_doorLocation.x, 0.f, m_doorLocation.z));
+
+		theEnemy->SetDoorLocation(Vector3(m_doorLocation.x, 0.f, m_doorLocation.z));
 		theEnemy = NULL;
 	}
 
@@ -353,8 +362,6 @@ void SceneText::Update(double dt)
 
 	GraphicsManager::GetInstance()->UpdateLights(dt);
 
-	// Update the 2 text object values. NOTE: Can do this in their own class but i'm lazy to do it now :P
-	// Eg. FPSRenderEntity or inside RenderUI for LightEntity
 	std::ostringstream ss;
 	ss.precision(5);
 	float fps = (float)(1.f / dt);

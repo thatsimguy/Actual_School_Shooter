@@ -18,6 +18,8 @@ protected:
 
 	int m_iSeed;
 
+	Vector3 doorLocation;
+
 public:
 	CEnemy(void);
 	virtual ~CEnemy();
@@ -58,4 +60,7 @@ public:
 	void SetRandomSeed(const int m_iSeed);
 	// Generate New Target
 	Vector3 GenerateTarget(void);
+
+	// Set door location
+	void SetDoorLocation(const Vector3& doorLocation);
 };

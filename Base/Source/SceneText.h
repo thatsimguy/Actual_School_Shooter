@@ -41,6 +41,8 @@ private:
 	CEnemy* theEnemy;
 
 	static SceneText* sInstance; // The pointer to the object that gets registered
+
+	Vector3 m_doorLocation;
 };
 
 #endif
