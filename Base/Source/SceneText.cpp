@@ -201,10 +201,10 @@ void SceneText::Init()
 	CokeCan->InitLOD("Coke", "CokeCola","sphere");
 
 	// Dick object
-	//GenericEntity* aDick = Create::Entity("DickHead", Vector3(0.f, 0.f, 0.f));
-	//aDick->SetCollider(true);
-	//aDick->SetAABB(Vector3(0.5f, 0.5f, 0.5f), Vector3(-0.5f, -0.5f, -0.5f));
-	//aDick->InitLOD("DickHead", "Dick", "DickWhy");
+	GenericEntity* aDick = Create::Entity("DickHead", Vector3(0.f, 0.f, 0.f));
+	aDick->SetCollider(true);
+	aDick->SetAABB(Vector3(0.5f, 0.5f, 0.5f), Vector3(-0.5f, -0.5f, -0.5f));
+	aDick->InitLOD("DickHead", "Dick", "DickWhy");
 
 
 	GenericEntity* aCube = Create::Entity("cube", Vector3(-20.0f, 0.0f, -20.0f));
@@ -263,8 +263,8 @@ void SceneText::Init()
 	playerInfo->SetTerrain(groundEntity);
 
 	// Create a CEnemy instance
-	srand(time(NULL));
-	for (int i = 0; i < 10; i++)
+	srand((int)time(NULL));
+	for (size_t i = 0; i < 10; i++)
 	{
 		theEnemy = new CEnemy();
 		float x = 1.0f + (i * rand() % 1000 - 500.0f);

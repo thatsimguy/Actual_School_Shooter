@@ -39,8 +39,8 @@ void CGrid::Init(	const int xIndex, const int zIndex,
 					const int xGridSize, const int zGridSize,
 					const float xOffset, const float zOffset)
 {
-	index.Set(xIndex, 0, zIndex);
-	size.Set(xGridSize, 0, zGridSize);
+	index.Set(static_cast<float>(xIndex), 0, static_cast<float>(zIndex));
+	size.Set(static_cast<float>(xGridSize), 0, static_cast<float>(zGridSize));
 	offset.Set(xOffset, 0, zOffset);
 	min.Set(index.x * size.x - offset.x, 0.0f, index.z * size.z - offset.z);
 	max.Set(index.x * size.x - offset.x + xGridSize, 0.0f, index.z * size.z - offset.z + zGridSize);
@@ -120,7 +120,7 @@ Add a new object to this grid
 ********************************************************************************/
 void CGrid::Add(EntityBase* theObject)
 {
-	for (int i = 0; i < ListOfObjects.size(); ++i)
+	for (size_t i = 0; i < ListOfObjects.size(); ++i)
 	{
 		if (ListOfObjects[i] == theObject)
 			return;
@@ -133,7 +133,7 @@ void CGrid::Add(EntityBase* theObject)
 ********************************************************************************/
 void CGrid::Remove(void)
 {
-	for( int i = 0 ; i < ListOfObjects.size(); i++)
+	for(size_t i = 0 ; i < ListOfObjects.size(); i++)
 	{
 		// Do not delete the objects as they are stored in EntityManager and will be deleted there.
 		//delete ListOfObjects[i];
@@ -172,7 +172,7 @@ bool CGrid::Remove(EntityBase* theObject)
 ********************************************************************************/
 bool CGrid::IsHere(EntityBase* theObject) const
 {
-	for (int i = 0; i < ListOfObjects.size(); ++i)
+	for (size_t i = 0; i < ListOfObjects.size(); ++i)
 	{
 		if (ListOfObjects[i] == theObject)
 			return true;
@@ -200,7 +200,7 @@ void CGrid::PrintSelf()
 	cout << "\t------------------------------------------------------------------------" << endl;
 	if (ListOfObjects.size() > 0)
 	{
-		for (int i = 0; i < ListOfObjects.size(); ++i)
+		for (size_t i = 0; i < ListOfObjects.size(); ++i)
 		{
 			cout << "\t" << i << "\t:\t" << ListOfObjects[i]->GetPosition() << endl;
 		}

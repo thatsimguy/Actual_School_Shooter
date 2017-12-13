@@ -227,9 +227,9 @@ void CEnemy::Render(void)
 // Generate New Target
 Vector3 CEnemy::GenerateTarget(void)
 {
-	return Vector3(	rand() % (int)((maxBoundary.x - minBoundary.x)*0.5),	
+	return Vector3(	static_cast<float>(rand() % (int)((maxBoundary.x - minBoundary.x)*0.5)),	
 					0.0f, 
-					rand() % (int)((maxBoundary.x - minBoundary.x)*0.5));
+					static_cast<float>(rand() % (int)((maxBoundary.x - minBoundary.x)*0.5)));
 }
 
 // Set random seed

@@ -64,11 +64,11 @@ bool CSpatialPartition::Init(	const int xGridSize, const int zGridSize,
 		theGrid = new CGrid[ xNumOfGrid*zNumOfGrid ];
 
 		// Initialise the array of grids
-		for (int i=0; i<xNumOfGrid; i++)
+		for (int i = 0; i < xNumOfGrid; i++)
 		{
-			for (int j=0; j<zNumOfGrid; j++)
+			for (int j = 0; j < zNumOfGrid; j++)
 			{
-				theGrid[i*zNumOfGrid + j].Init(i, j, xGridSize, zGridSize, (xSize >> 1), (zSize >> 1));
+				theGrid[i * zNumOfGrid + j].Init(i, j, xGridSize, zGridSize, (float)(xSize >> 1), (float)(zSize >> 1));
 			}
 		}
 
@@ -151,7 +151,7 @@ void CSpatialPartition::Update(void)
 	if (MigrationList.empty() == false)
 	{
 		// Check each object to see if they are no longer in this grid
-		for (int i = 0; i < MigrationList.size(); ++i)
+		for (size_t i = 0; i < MigrationList.size(); ++i)
 		{
 			Add(MigrationList[i]);
 		}
@@ -170,14 +170,14 @@ void CSpatialPartition::Render(Vector3* theCameraPosition)
 
 	modelStack.PushMatrix();
 	modelStack.Translate(0.0f, yOffset, 0.0f);
-	for (int i = 0; i<xNumOfGrid; i++)
+	for (int i = 0; i < xNumOfGrid; i++)
 	{
-		for (int j = 0; j<zNumOfGrid; j++)
+		for (int j = 0; j < zNumOfGrid; j++)
 		{
 			modelStack.PushMatrix();
-			modelStack.Translate(xGridSize*i - (xSize >> 1), 0.0f, zGridSize*j - (zSize >> 1));
+			modelStack.Translate(static_cast<float>((xGridSize * i - (xSize >> 1))), 0.0f, static_cast<float>(zGridSize * j - (zSize >> 1)));
 			modelStack.PushMatrix();
-			modelStack.Scale(xGridSize, 1.0f, zGridSize);
+			modelStack.Scale(static_cast<float>(xGridSize), 1.0f, static_cast<float>(zGridSize));
 			modelStack.Rotate(-90, 1, 0, 0);
 			theGrid[i*zNumOfGrid + j].Render();
 			modelStack.PopMatrix();
