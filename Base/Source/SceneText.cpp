@@ -173,8 +173,23 @@ void SceneText::Init()
 	// Coke
 	MeshBuilder::GetInstance()->GenerateOBJ("CokeCola", "OBJ//Coke_UnRendered.obj");
 	MeshBuilder::GetInstance()->GetMesh("CokeCola")->textureID = LoadTGA("Image//Red.tga");
+
 	MeshBuilder::GetInstance()->GenerateOBJ("Coke", "OBJ//Coke.obj");
 	MeshBuilder::GetInstance()->GetMesh("Coke")->textureID = LoadTGA("Image//coke_label.tga");
+
+	//Models
+	//High Resulotion
+	MeshBuilder::GetInstance()->GenerateOBJ("Model", "OBJ//FuckThis.obj");
+	MeshBuilder::GetInstance()->GetMesh("Model")->textureID = LoadTGA("Image//NPC.tga");
+	//Medium Resolution
+	MeshBuilder::GetInstance()->GenerateOBJ("Model3", "OBJ//Models.obj");
+	MeshBuilder::GetInstance()->GetMesh("Model3")->textureID = LoadTGA("Image//ModelHigh.tga");
+
+	//Low Resolution
+	MeshBuilder::GetInstance()->GenerateOBJ("Model2", "OBJ//FuckYou.obj");
+	//MeshBuilder::GetInstance()->GetMesh("Model2")->textureID = LoadTGA("Image//Red.tga");
+
+
 
 	// Set up the Spatial Partition and pass it to the EntityManager to manage
 	CSpatialPartition::GetInstance()->Init(100, 100, 10, 10);
@@ -186,7 +201,7 @@ void SceneText::Init()
 	// Create entities into the scene
 	Create::Entity("reference", Vector3(0.0f, 0.0f, 0.0f)); // Reference
 	Create::Entity("lightball", Vector3(lights[0]->position.x, lights[0]->position.y, lights[0]->position.z)); // Lightball
-
+	//Create::Entity("Model3", Vector3(45.0f, 00.0f, 15.0f));
 	// Door object
 	m_doorLocation = Vector3(10.f, -10.f, 10.f);
 	GenericEntity* aDoor = Create::Asset("Door", m_doorLocation, Vector3(5.f, 5.f, 5.f));
@@ -195,22 +210,34 @@ void SceneText::Init()
 	EntityManager::GetInstance()->AddEntity(aDoor, false);
 
 	// Coke object
-	GenericEntity *CokeCan = Create::Entity("Coke", Vector3(10.f, -10.0f, 0.0f), Vector3(5.f, 5.f, 5.f));
+	GenericEntity *CokeCan = Create::Entity("Coke", Vector3(35.f, -10.0f, 5.0f), Vector3(5.f, 5.f, 5.f));
 	CokeCan->SetCollider(true);
-	CokeCan->SetAABB(Vector3(0.5f, 0.5f, 0.5f), Vector3(-0.5f, -0.5f, -0.5f));
+	CokeCan->SetAABB(Vector3(10.5f, 10.5f, 10.5f), Vector3(-10.5f, -10.5f, -10.5f));
 	CokeCan->InitLOD("Coke", "CokeCola","sphere");
 
+	/*GenericEntity *NPC = Create::Entity("Model", Vector3(45.f, 00.0f, 15.0f), Vector3(5.f, 5.f, 5.f));
+	NPC->SetCollider(true);
+	NPC->SetAABB(Vector3(10.5f, 10.5f, 10.5f), Vector3(-10.5f, -10.5f, -10.5f));*/
+	//CokeCan->InitLOD("Coke", "CokeCola", "sphere");
+
+
 	// Dick object
-	//GenericEntity* aDick = Create::Entity("DickHead", Vector3(0.f, 0.f, 0.f));
-	//aDick->SetCollider(true);
-	//aDick->SetAABB(Vector3(0.5f, 0.5f, 0.5f), Vector3(-0.5f, -0.5f, -0.5f));
-	//aDick->InitLOD("DickHead", "Dick", "DickWhy");
+	GenericEntity* aDick = Create::Entity("DickHead", Vector3(0.f, 0.f, 0.f));
+	aDick->SetCollider(true);
+	aDick->SetAABB(Vector3(0.5f, 0.5f, 0.5f), Vector3(-0.5f, -0.5f, -0.5f));
+	aDick->InitLOD("DickHead", "Dick", "DickWhy");
 
 
 	GenericEntity* aCube = Create::Entity("cube", Vector3(-20.0f, 0.0f, -20.0f));
 	aCube->SetCollider(true);
 	aCube->SetAABB(Vector3(0.5f, 0.5f, 0.5f), Vector3(-0.5f, -0.5f, -0.5f));
 	aCube->InitLOD("cube", "sphere", "cubeSG");
+
+
+	GenericEntity* NPC = Create::Entity("Model", Vector3(30, -10, 50),Vector3(2.5,2.5,2.5));
+	NPC->SetCollider(true);
+	NPC->SetAABB(Vector3(10.5f, 10.5f, 10.5f), Vector3(-10.5f, -10.5f, -10.5f));
+	NPC->InitLOD("Model","Model3", "Model2");
 
 	// Add the pointer to this new entity to the Scene Graph
 	CSceneNode* theNode = CSceneGraph::GetInstance()->AddNode(aCube);
