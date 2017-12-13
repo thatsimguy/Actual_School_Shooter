@@ -51,7 +51,7 @@ void CGrenade::Update(double dt)
 
 		// Check the SpatialPartition to destroy nearby objects
 		vector<EntityBase*> ExportList = CSpatialPartition::GetInstance()->GetObjects(position, 1.0f);
-		for (int i = 0; i < ExportList.size(); ++i)
+		for (size_t i = 0; i < ExportList.size(); ++i)
 		{
 			// Remove from Scene Graph
 			if (CSceneGraph::GetInstance()->DeleteNode(ExportList[i]) == true)
@@ -68,11 +68,11 @@ void CGrenade::Update(double dt)
 	if (position.y >= m_pTerrain->GetTerrainHeight(position) - 10.0f + Math::EPSILON)
 	{
 		// Update Position
-		m_fElapsedTime += dt;
+		m_fElapsedTime += static_cast<float>(dt);
 
-		position.Set(	position.x + (float)(theDirection.x * m_fElapsedTime * m_fSpeed),
-						position.y + (float)(theDirection.y * m_fElapsedTime * m_fSpeed) + (0.5 * m_fGravity * m_fElapsedTime * m_fElapsedTime),
-						position.z + (float)(theDirection.z * m_fElapsedTime * m_fSpeed));
+		position.Set(static_cast<float>(position.x + (float)(theDirection.x * m_fElapsedTime * m_fSpeed)),
+					static_cast<float>(position.y + (float)(theDirection.y * m_fElapsedTime * m_fSpeed) + (0.5 * m_fGravity * m_fElapsedTime * m_fElapsedTime)),
+					static_cast<float>(position.z + (float)(theDirection.z * m_fElapsedTime * m_fSpeed)));
 
 		if (position.y < m_pTerrain->GetTerrainHeight(position) - 10.0f)
 		{

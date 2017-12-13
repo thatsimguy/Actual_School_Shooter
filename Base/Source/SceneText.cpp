@@ -290,8 +290,8 @@ void SceneText::Init()
 	playerInfo->SetTerrain(groundEntity);
 
 	// Create a CEnemy instance
-	srand(time(NULL));
-	for (int i = 0; i < 10; i++)
+	srand((int)time(NULL));
+	for (size_t i = 0; i < 10; i++)
 	{
 		theEnemy = new CEnemy();
 		float x = 1.0f + (i * rand() % 1000 - 500.0f);
