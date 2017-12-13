@@ -396,22 +396,27 @@ bool EntityManager::CheckForCollision(void)
 
 				if ((*colliderThat)->HasCollider())
 				{
+					CProjectile *fk = dynamic_cast<CProjectile*>(*colliderThat);
 					EntityBase *thatEntity = dynamic_cast<EntityBase*>(*colliderThat);
-					if (CheckSphereCollision(thisEntity, thatEntity))
+
+					if (fk)
 					{
-						if (CheckAABBCollision(thisEntity, thatEntity))
+						if (CheckSphereCollision(thisEntity, thatEntity))
 						{
-							thisEntity->SetIsDone(true);
-							thatEntity->SetIsDone(true);
-							// Remove from Scene Graph
-							if (CSceneGraph::GetInstance()->DeleteNode((*colliderThis)) == true)
+							if (CheckAABBCollision(thisEntity, thatEntity))
 							{
-								cout << "*** This Entity removed ***" << endl;
-							}
-							// Remove from Scene Graph
-							if (CSceneGraph::GetInstance()->DeleteNode((*colliderThat)) == true)
-							{
-								cout << "*** That Entity removed ***" << endl;
+								thisEntity->SetIsDone(true);
+								thatEntity->SetIsDone(true);
+								// Remove from Scene Graph
+								if (CSceneGraph::GetInstance()->DeleteNode((*colliderThis)) == true)
+								{
+									cout << "*** This Entity removed ***" << endl;
+								}
+								// Remove from Scene Graph
+								if (CSceneGraph::GetInstance()->DeleteNode((*colliderThat)) == true)
+								{
+									cout << "*** That Entity removed ***" << endl;
+								}
 							}
 						}
 					}
