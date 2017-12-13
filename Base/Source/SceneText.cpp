@@ -131,8 +131,6 @@ void SceneText::Init()
 	MeshBuilder::GetInstance()->GenerateText("text", 16, 16);
 	MeshBuilder::GetInstance()->GetMesh("text")->textureID = LoadTGA("Image//calibri.tga");
 	MeshBuilder::GetInstance()->GetMesh("text")->material.kAmbient.Set(1, 0, 0);
-	MeshBuilder::GetInstance()->GenerateOBJ("Chair", "OBJ//chair.obj");
-	MeshBuilder::GetInstance()->GetMesh("Chair")->textureID = LoadTGA("Image//chair.tga");
 	MeshBuilder::GetInstance()->GenerateRing("ring", Color(1, 0, 1), 36, 1, 0.5f);
 	MeshBuilder::GetInstance()->GenerateSphere("lightball", Color(1, 1, 1), 18, 36, 1.f);
 	MeshBuilder::GetInstance()->GenerateSphere("sphere", Color(1, 0, 0), 18, 36, 0.5f);
@@ -208,6 +206,8 @@ void SceneText::Init()
 	Create::Entity("reference", Vector3(0.0f, 0.0f, 0.0f)); // Reference
 	Create::Entity("lightball", Vector3(lights[0]->position.x, lights[0]->position.y, lights[0]->position.z)); // Lightball
 	//Create::Entity("Model3", Vector3(45.0f, 00.0f, 15.0f));
+
+
 	// Door object
 	m_doorLocation = Vector3(10.f, -10.f, 10.f);
 	GenericEntity* aDoor = Create::Asset("Door", m_doorLocation, Vector3(5.f, 5.f, 5.f));
@@ -233,7 +233,7 @@ void SceneText::Init()
 	aDick->SetAABB(Vector3(0.5f, 0.5f, 0.5f), Vector3(-0.5f, -0.5f, -0.5f));
 	aDick->InitLOD("DickHead", "Dick", "DickWhy");
 
-
+	// NPC object
 	GenericEntity* NPC = Create::Entity("Model", Vector3(30, -10, 50),Vector3(2.5,2.5,2.5));
 	NPC->SetCollider(true);
 	NPC->SetAABB(Vector3(10.5f, 10.5f, 10.5f), Vector3(-10.5f, -10.5f, -10.5f));
@@ -327,6 +327,8 @@ void SceneText::Init()
 
 		theEnemy->SetDoorLocation(Vector3(m_doorLocation.x, 0.f, m_doorLocation.z));
 		theEnemy = NULL;
+
+		playerInfo->left++;
 	}
 
 	// Setup the 2D entities
@@ -451,6 +453,18 @@ void SceneText::Update(double dt)
 	totalAmmo = playerInfo->GetTotalPrimaryAmmo();
 	ss3 << "Ammo:" << ammoOutput << "/" << totalAmmo;
 	textObj[4]->SetText(ss3.str());
+
+	// Output number of NPCs left
+	std::ostringstream ss4;
+	ss4.precision(4);
+	ss4 << "Left:" << playerInfo->left;
+	textObj[4]->SetText(ss4.str());
+
+	// Output score
+	std::ostringstream ss5;
+	ss5.precision(4);
+	ss5 << "Score:" << playerInfo->score;
+	textObj[5]->SetText(ss5.str());
 }
 
 void SceneText::Render()

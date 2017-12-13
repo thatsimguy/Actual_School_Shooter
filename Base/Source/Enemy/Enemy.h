@@ -1,6 +1,7 @@
 #pragma once
 #include "../GenericEntity.h"
 #include "../GroundEntity.h"
+#include "../PlayerInfo/PlayerInfo.h"
 
 class Mesh;
 
@@ -12,6 +13,8 @@ protected:
 	Vector3 target, up;
 	Vector3 maxBoundary, minBoundary;
 	GroundEntity* m_pTerrain;
+
+	CPlayerInfo* playerInfo;
 
 	double m_dSpeed;
 	double m_dAcceleration;

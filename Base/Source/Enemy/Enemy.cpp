@@ -57,6 +57,8 @@ void CEnemy::Init(void)
 
 	// Add to EntityManager
 	EntityManager::GetInstance()->AddEntity(this, true);
+
+	playerInfo = CPlayerInfo::GetInstance();
 }
 
 void CEnemy::Init(float x, float y)
@@ -91,6 +93,8 @@ void CEnemy::Init(float x, float y)
 
 	// Add to EntityManager
 	EntityManager::GetInstance()->AddEntity(this, true);
+
+	playerInfo = CPlayerInfo::GetInstance();
 }
 
 // Reset this player instance to default
@@ -200,6 +204,8 @@ void CEnemy::Constrain(void)
 	if (abs(((doorLocation.x - position.x) * (doorLocation.x - position.x) - (doorLocation.z - position.z)*(doorLocation.z - position.z))) < m_dSpeed)
 	{
 		SetIsDone(true);
+		playerInfo->score += 5;
+		playerInfo->left--;
 	}
 
 	// if the y position is not equal to terrain height at that position, 

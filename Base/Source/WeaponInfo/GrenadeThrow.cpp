@@ -46,8 +46,8 @@ void CGrenadeThrow::Discharge(Vector3 position, Vector3 target, CPlayerInfo* _so
 			CProjectile* aProjectile = Create::Grenade("sphere",
 														position,
 														(target - position).Normalized(),
-														7.0f,
-														8.0f,
+														3.0f,	//lifetime
+														8.0f,	//speed
 														_source);
 			aProjectile->SetCollider(true);
 			aProjectile->SetAABB(Vector3(0.5f, 0.5f, 0.5f), Vector3(-0.5f, -0.5f, -0.5f));

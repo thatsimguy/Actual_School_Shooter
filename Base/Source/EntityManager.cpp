@@ -396,10 +396,10 @@ bool EntityManager::CheckForCollision(void)
 
 				if ((*colliderThat)->HasCollider())
 				{
-					CProjectile *fk = dynamic_cast<CProjectile*>(*colliderThat);
+					CProjectile *projectile = dynamic_cast<CProjectile*>(*colliderThat);
 					EntityBase *thatEntity = dynamic_cast<EntityBase*>(*colliderThat);
 
-					if (fk)
+					if (projectile)
 					{
 						if (CheckSphereCollision(thisEntity, thatEntity))
 						{
