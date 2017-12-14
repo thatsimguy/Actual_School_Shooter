@@ -16,6 +16,8 @@ template <typename T> vector<T> concat(vector<T> &a, vector<T> &b) {
 // The pointer is allocated but not the object's constructor.
 CSpatialPartition *CSpatialPartition::sp_instance = 0;
 
+CPlayerInfo* playerInfo = CPlayerInfo::GetInstance();
+
 /********************************************************************************
  Constructor
  ********************************************************************************/
@@ -158,6 +160,8 @@ void CSpatialPartition::Update(void)
 
 		MigrationList.clear();
 	}
+	//cout << xGridSize << endl;
+	//xGridSize = 100
 }
 
 /********************************************************************************
@@ -170,20 +174,32 @@ void CSpatialPartition::Render(Vector3* theCameraPosition)
 
 	modelStack.PushMatrix();
 	modelStack.Translate(0.0f, yOffset, 0.0f);
-	for (int i = 0; i < xNumOfGrid; i++)
+
+	if (playerInfo->GetPos().x > 0)
 	{
-		for (int j = 0; j < zNumOfGrid; j++)
-		{
-			modelStack.PushMatrix();
-			modelStack.Translate(static_cast<float>((xGridSize * i - (xSize >> 1))), 0.0f, static_cast<float>(zGridSize * j - (zSize >> 1)));
-			modelStack.PushMatrix();
-			modelStack.Scale(static_cast<float>(xGridSize), 1.0f, static_cast<float>(zGridSize));
-			modelStack.Rotate(-90, 1, 0, 0);
-			theGrid[i*zNumOfGrid + j].Render();
-			modelStack.PopMatrix();
-			modelStack.PopMatrix();
-		}
+		testx = 50;
 	}
+	else
+	{
+		testx = -50;
+	}
+	if (playerInfo->GetPos().z > 0)
+	{
+		testz = 50;
+	}
+	else
+	{
+		testz = -50;
+	}
+	
+	modelStack.PushMatrix();
+	modelStack.Translate(static_cast<int>(playerInfo->GetPos().x / 100) * 100 + testx, 1.0f, static_cast<int>(playerInfo->GetPos().z / 100) * 100 + testz);
+	modelStack.PushMatrix();
+	modelStack.Scale(10, 1.0f, 10);
+	modelStack.Rotate(-90, 1, 0, 0);
+	theGrid[1].Render();
+	modelStack.PopMatrix();
+	modelStack.PopMatrix();
 
 	modelStack.PopMatrix();
 }

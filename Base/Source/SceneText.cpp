@@ -351,7 +351,7 @@ void SceneText::Init()
 	{
 		textObj[i] = Create::Text2DObject("text", Vector3(-halfWindowWidth, -halfWindowHeight + fontSize*i + halfFontSize, 0.0f), "", Vector3(fontSize, fontSize, fontSize), Color(0.0f,1.0f,0.0f));
 	}
-	textObj[0]->SetText("Shooter Simulator");
+	textObj[0]->SetText("Shooter Sim");
 }
 
 void SceneText::Update(double dt)
@@ -445,38 +445,36 @@ void SceneText::Update(double dt)
 	ss << "FPS: " << fps;
 	textObj[1]->SetText(ss.str());
 
-	std::ostringstream ss1;
-	ss1.precision(4);
-	ss1 << "Player:" << playerInfo->GetPos();
-	textObj[2]->SetText(ss1.str());
+	//std::ostringstream ss1;
+	//ss1.precision(4);
+	//ss1 << "Player:" << playerInfo->GetPos();
+	//textObj[2]->SetText(ss1.str());
 
 	// Output current weapon
 	std::ostringstream ss2;
-	ss2.precision(4);
-	string weaponOutput;
-	weaponOutput = "Pistol";
-	ss2 << "Weapon:" << weaponOutput;
-	textObj[3]->SetText(ss2.str());
+	//ss2.precision(4);
+	ss2 << "Pistol";
+	textObj[2]->SetText(ss2.str());
 
 	// Output ammo of current weapon
 	std::ostringstream ss3;
-	ss3.precision(4);
+	//ss3.precision(4);
 	int ammoOutput = 0;
 	int totalAmmo = 0;
 	ammoOutput = playerInfo->GetPrimaryAmmo();
 	totalAmmo = playerInfo->GetTotalPrimaryAmmo();
 	ss3 << "Ammo:" << ammoOutput << "/" << totalAmmo;
-	textObj[4]->SetText(ss3.str());
+	textObj[3]->SetText(ss3.str());
 
 	// Output number of NPCs left
 	std::ostringstream ss4;
-	ss4.precision(4);
+	//ss4.precision(4);
 	ss4 << "Left:" << playerInfo->left;
 	textObj[4]->SetText(ss4.str());
 
 	// Output score
 	std::ostringstream ss5;
-	ss5.precision(4);
+	//ss5.precision(4);
 	ss5 << "Score:" << playerInfo->score;
 	textObj[5]->SetText(ss5.str());
 }

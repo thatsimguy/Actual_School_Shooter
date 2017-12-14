@@ -5,6 +5,7 @@
 #include <list>
 #include "Vector3.h"
 #include "SpatialPartition\SpatialPartition.h"
+#include "PlayerInfo\PlayerInfo.h"
 
 class EntityBase;
 
@@ -47,6 +48,9 @@ private:
 	
 	// Handler to Spatial Partition
 	CSpatialPartition* theSpatialPartition;
+
+	// PlayerInfo stuff
+	CPlayerInfo* playerInfo;
 };
 
 #endif // ENTITY_MANAGER_H

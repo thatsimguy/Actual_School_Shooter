@@ -53,7 +53,7 @@ void CEnemy::Init(void)
 
 	// Initialise the Collider
 	this->SetCollider(true);
-	this->SetAABB(Vector3(1, 1, 1), Vector3(-1, -1, -1));
+	this->SetAABB(Vector3(5, -5, 5), Vector3(-5, -15, -5));
 
 	// Add to EntityManager
 	EntityManager::GetInstance()->AddEntity(this, true);
@@ -89,7 +89,7 @@ void CEnemy::Init(float x, float y)
 
 	// Initialise the Collider
 	this->SetCollider(true);
-	this->SetAABB(Vector3(1, 1, 1), Vector3(-1, -1, -1));
+	this->SetAABB(Vector3(5, -5, 5), Vector3(-5, -15, -5));
 
 	// Add to EntityManager
 	EntityManager::GetInstance()->AddEntity(this, true);
@@ -204,7 +204,6 @@ void CEnemy::Constrain(void)
 	if (abs(((doorLocation.x - position.x) * (doorLocation.x - position.x) - (doorLocation.z - position.z)*(doorLocation.z - position.z))) < m_dSpeed)
 	{
 		SetIsDone(true);
-		playerInfo->score += 5;
 		playerInfo->left--;
 	}
 
@@ -219,7 +218,7 @@ void CEnemy::Render(void)
 {
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
 	modelStack.PushMatrix();
-	modelStack.Translate(position.x, position.y, position.z);
+	modelStack.Translate(position.x, -10.f, position.z);
 	modelStack.Scale(scale.x, scale.y, scale.z);
 	if (GetLODStatus() == true)
 	{

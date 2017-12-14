@@ -21,6 +21,9 @@ void EntityManager::Update(double _dt)
 	// Render the Scene Graph
 	CSceneGraph::GetInstance()->Update();
 
+	// Initialize playerInfo
+	playerInfo = CPlayerInfo::GetInstance();
+
 	// Render the Spatial Partition
 	if (theSpatialPartition)
 		theSpatialPartition->Update();
@@ -407,6 +410,9 @@ bool EntityManager::CheckForCollision(void)
 							{
 								thisEntity->SetIsDone(true);
 								thatEntity->SetIsDone(true);
+
+								playerInfo->score += 5;
+
 								// Remove from Scene Graph
 								if (CSceneGraph::GetInstance()->DeleteNode((*colliderThis)) == true)
 								{

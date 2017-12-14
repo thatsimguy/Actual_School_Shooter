@@ -4,6 +4,7 @@
 #include "Grid.h"
 #include "EntityBase.h"
 #include "../FPSCamera.h"
+#include "../PlayerInfo/PlayerInfo.h"
 
 class CSpatialPartition
 {
@@ -27,6 +28,9 @@ protected:
 	FPSCamera* theCamera;
 	// LOD distances
 	float LevelOfDetails_Distances[2];
+
+	int testx;
+	int testz;
 
 public:
 	static CSpatialPartition *GetInstance()
