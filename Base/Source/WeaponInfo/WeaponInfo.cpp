@@ -150,7 +150,7 @@ void CWeaponInfo::Discharge(Vector3 position, Vector3 target, CPlayerInfo* _sour
 				position,
 				(target - position).Normalized(),
 				7.0f, //bullet lifetime
-				110.0f, //bullet speed
+				310.0f, //bullet speed
 				_source);
 			aProjectile->SetCollider(true);
 			aProjectile->SetAABB(Vector3(0.5f, 0.5f, 0.5f), Vector3(-0.5f, -0.5f, -0.5f));

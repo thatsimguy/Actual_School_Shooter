@@ -125,7 +125,7 @@ void SceneText::Init()
 
 	// Load all the meshes
 	MeshBuilder::GetInstance()->GenerateAxes("reference");
-	MeshBuilder::GetInstance()->GenerateCrossHair("crosshair");
+	MeshBuilder::GetInstance()->GenerateCrossHair("crosshair", 0.f);
 	MeshBuilder::GetInstance()->GenerateQuad("quad", Color(1, 1, 1), 1.f);
 	MeshBuilder::GetInstance()->GetMesh("quad")->textureID = LoadTGA("Image//calibri.tga");
 	MeshBuilder::GetInstance()->GenerateText("text", 16, 16);
@@ -157,7 +157,7 @@ void SceneText::Init()
 	MeshBuilder::GetInstance()->GetMesh("SKYBOX_TOP")->textureID = LoadTGA("Image//SkyBox//violentdays_up.tga");
 	MeshBuilder::GetInstance()->GetMesh("SKYBOX_BOTTOM")->textureID = LoadTGA("Image//SkyBox//violentdays_dn.tga");
 	MeshBuilder::GetInstance()->GenerateRay("laser", 10.0f);
-	MeshBuilder::GetInstance()->GenerateQuad("GRIDMESH", Color(1, 1, 1), 10.f);
+	MeshBuilder::GetInstance()->GenerateQuad("GRIDMESH", Color(0, 0, 0), 10.f);
 
 	// Dick
 	MeshBuilder::GetInstance()->GenerateOBJ("Dick", "OBJ//dick.obj");
@@ -230,6 +230,13 @@ void SceneText::Init()
 	CokeCan->SetAABB(Vector3(10.5f, 10.5f, 10.5f), Vector3(-10.5f, -10.5f, -10.5f));
 	CokeCan->InitLOD("Coke", "CokeCola","sphere");
 
+	// Making coke into base (Scene Graph)
+	CSceneNode* CokeNode = CSceneGraph::GetInstance()->AddNode(CokeCan);
+	if (CokeNode == NULL)
+	{
+		cout << "EntityManager::AddEntity: Unable to add to scene graph!" << endl;
+	}
+
 	/*GenericEntity *NPC = Create::Entity("Model", Vector3(45.f, 00.0f, 15.0f), Vector3(5.f, 5.f, 5.f));
 	NPC->SetCollider(true);
 	NPC->SetAABB(Vector3(10.5f, 10.5f, 10.5f), Vector3(-10.5f, -10.5f, -10.5f));*/
@@ -242,11 +249,25 @@ void SceneText::Init()
 	aDick->SetAABB(Vector3(0.5f, 0.5f, 0.5f), Vector3(-0.5f, -0.5f, -0.5f));
 	aDick->InitLOD("DickHead", "Dick", "DickWhy");
 
+	// Making dick into base (Scene Graph)
+	CSceneNode* DickNode = CSceneGraph::GetInstance()->AddNode(aDick);
+	if (DickNode == NULL)
+	{
+		cout << "EntityManager::AddEntity: Unable to add to scene graph!" << endl;
+	}
+
 	// NPC object
 	GenericEntity* NPC = Create::Entity("Model", Vector3(30, -10, 50),Vector3(2.5,2.5,2.5));
 	NPC->SetCollider(true);
 	NPC->SetAABB(Vector3(10.5f, 10.5f, 10.5f), Vector3(-10.5f, -10.5f, -10.5f));
 	NPC->InitLOD("Model","Model3", "Model2");
+
+	// Making NPC into base (Scene Graph)
+	CSceneNode* NPCNode = CSceneGraph::GetInstance()->AddNode(NPC);
+	if (NPCNode == NULL)
+	{
+		cout << "EntityManager::AddEntity: Unable to add to scene graph!" << endl;
+	}
 
 
 
@@ -255,7 +276,7 @@ void SceneText::Init()
 	GenericEntity* aCube = Create::Entity("Stick", Vector3(-20.0f, -10.0f, -20.0f));
 	aCube->SetCollider(true);
 	aCube->SetAABB(Vector3(1.9f, 3.9f, 1.9f), Vector3(-1.9f, -3.9f, -1.9f));
-	//aCube->InitLOD("cube", "sphere", "cubeSG");
+
 
 
 
@@ -337,6 +358,13 @@ void SceneText::Init()
 		theEnemy->SetTarget(Vector3(m_doorLocation.x, 0.f, m_doorLocation.z));
 
 		theEnemy->SetDoorLocation(Vector3(m_doorLocation.x, 0.f, m_doorLocation.z));
+
+		CSceneNode* theNode = CSceneGraph::GetInstance()->AddNode(theEnemy);
+		if (theNode == NULL)
+		{
+			cout << "EntityManager::AddEntity: Unable to add to scene graph!" << endl;
+		}
+
 		theEnemy = NULL;
 
 		playerInfo->left++;

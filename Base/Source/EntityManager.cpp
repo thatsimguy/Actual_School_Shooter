@@ -2,6 +2,7 @@
 #include "EntityBase.h"
 #include "Collider/Collider.h"
 #include "Projectile/Laser.h"
+#include "Projectile\Grenade.h"
 #include "SceneGraph\SceneGraph.h"
 
 #include <iostream>
@@ -38,6 +39,7 @@ void EntityManager::Update(double _dt)
 		if ((*it)->IsDone())
 		{
 			// Delete if done
+			CSceneGraph::GetInstance()->DeleteNode(*it);
 			delete *it;
 			it = entityList.erase(it);
 		}
@@ -400,9 +402,11 @@ bool EntityManager::CheckForCollision(void)
 				if ((*colliderThat)->HasCollider())
 				{
 					CProjectile *projectile = dynamic_cast<CProjectile*>(*colliderThat);
+					CGrenade *grenade = dynamic_cast<CGrenade*>(*colliderThat);
+
 					EntityBase *thatEntity = dynamic_cast<EntityBase*>(*colliderThat);
 
-					if (projectile)
+					if (projectile || grenade)
 					{
 						if (CheckSphereCollision(thisEntity, thatEntity))
 						{
