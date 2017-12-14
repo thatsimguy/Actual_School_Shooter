@@ -11,6 +11,7 @@
 #include "GenericEntity.h"
 #include "SceneGraph/UpdateTransformation.h"
 #include "Enemy\Enemy.h"
+#include "Camera Effects\Camera_Effects.h"
 
 class ShaderProgram;
 class SceneManager;
@@ -39,9 +40,9 @@ private:
 
 	GenericEntity* theCube;
 	CEnemy* theEnemy;
-
+	CCameraEffects* CameraEffects_One_O_One;
 	static SceneText* sInstance; // The pointer to the object that gets registered
-
+	Mesh*Pistol;
 	Vector3 m_doorLocation;
 };
 

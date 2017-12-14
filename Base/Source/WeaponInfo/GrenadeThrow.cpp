@@ -43,7 +43,7 @@ void CGrenadeThrow::Discharge(Vector3 position, Vector3 target, CPlayerInfo* _so
 		{
 			// Create a projectile with a cube mesh. Its position and direction is same as the player.
 			// It will last for 3.0 seconds and travel at 500 units per second
-			CProjectile* aProjectile = Create::Grenade("sphere",
+			CProjectile* aProjectile = Create::Grenade("Pork",
 														position,
 														(target - position).Normalized(),
 														3.0f,	//lifetime

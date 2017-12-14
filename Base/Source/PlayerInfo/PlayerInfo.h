@@ -100,6 +100,7 @@ public:
 	{
 		return primaryWeapon->GetTotalRound();
 	}
+	int GetWeapon(void) const;
 
 	// Constrain the position within the borders
 	void Constrain(void);
@@ -110,6 +111,9 @@ public:
 	
 	int score = 0;
 	int left = 0;
+
+
+	int m_iCurrentWeapon;
 
 private:
 	Vector3 defaultPosition, defaultTarget, defaultUp;

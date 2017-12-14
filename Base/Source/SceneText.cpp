@@ -150,19 +150,22 @@ void SceneText::Init()
 	MeshBuilder::GetInstance()->GenerateQuad("SKYBOX_RIGHT", Color(1, 1, 1), 1.f);
 	MeshBuilder::GetInstance()->GenerateQuad("SKYBOX_TOP", Color(1, 1, 1), 1.f);
 	MeshBuilder::GetInstance()->GenerateQuad("SKYBOX_BOTTOM", Color(1, 1, 1), 1.f);
-	MeshBuilder::GetInstance()->GetMesh("SKYBOX_FRONT")->textureID = LoadTGA("Image//SkyBox//skybox_front.tga");
-	MeshBuilder::GetInstance()->GetMesh("SKYBOX_BACK")->textureID = LoadTGA("Image//SkyBox//skybox_back.tga");
-	MeshBuilder::GetInstance()->GetMesh("SKYBOX_LEFT")->textureID = LoadTGA("Image//SkyBox//skybox_left.tga");
-	MeshBuilder::GetInstance()->GetMesh("SKYBOX_RIGHT")->textureID = LoadTGA("Image//SkyBox//skybox_right.tga");
-	MeshBuilder::GetInstance()->GetMesh("SKYBOX_TOP")->textureID = LoadTGA("Image//SkyBox//skybox_top.tga");
-	MeshBuilder::GetInstance()->GetMesh("SKYBOX_BOTTOM")->textureID = LoadTGA("Image//SkyBox//skybox_bottom.tga");
+	MeshBuilder::GetInstance()->GetMesh("SKYBOX_FRONT")->textureID = LoadTGA("Image//SkyBox//violentdays_ft.tga");
+	MeshBuilder::GetInstance()->GetMesh("SKYBOX_BACK")->textureID = LoadTGA("Image//SkyBox//violentdays_bk.tga");
+	MeshBuilder::GetInstance()->GetMesh("SKYBOX_LEFT")->textureID = LoadTGA("Image//SkyBox//violentdays_lf.tga");
+	MeshBuilder::GetInstance()->GetMesh("SKYBOX_RIGHT")->textureID = LoadTGA("Image//SkyBox//violentdays_rt.tga");
+	MeshBuilder::GetInstance()->GetMesh("SKYBOX_TOP")->textureID = LoadTGA("Image//SkyBox//violentdays_up.tga");
+	MeshBuilder::GetInstance()->GetMesh("SKYBOX_BOTTOM")->textureID = LoadTGA("Image//SkyBox//violentdays_dn.tga");
 	MeshBuilder::GetInstance()->GenerateRay("laser", 10.0f);
 	MeshBuilder::GetInstance()->GenerateQuad("GRIDMESH", Color(1, 1, 1), 10.f);
 
 	// Dick
 	MeshBuilder::GetInstance()->GenerateOBJ("Dick", "OBJ//dick.obj");
+	MeshBuilder::GetInstance()->GetMesh("Dick")->textureID = LoadTGA("Image//Pig.tga");
 	MeshBuilder::GetInstance()->GenerateOBJ("DickHead", "OBJ//dick_head.obj");
+	MeshBuilder::GetInstance()->GetMesh("DickHead")->textureID = LoadTGA("Image//Pig.tga");
 	MeshBuilder::GetInstance()->GenerateOBJ("DickWhy", "OBJ//dick_why.obj");
+	MeshBuilder::GetInstance()->GetMesh("DickWhy")->textureID = LoadTGA("Image//Pig.tga");
 
 	// Door
 	MeshBuilder::GetInstance()->GenerateOBJ("Door", "OBJ//door.obj");
@@ -194,6 +197,12 @@ void SceneText::Init()
 	MeshBuilder::GetInstance()->GenerateOBJ("Stick", "OBJ//Stick.obj");
 	MeshBuilder::GetInstance()->GetMesh("Stick")->textureID = LoadTGA("Image//SignBoard.tga");
 
+	//Explosive Pig
+	MeshBuilder::GetInstance()->GenerateOBJ("Pork", "OBJ//Explosive_Pig.obj");
+	MeshBuilder::GetInstance()->GetMesh("Pork")->textureID = LoadTGA("Image//Pig.tga");
+
+	MeshBuilder::GetInstance()->GenerateQuad("Pistolicon", Color(1, 1, 1), 2.f);
+	MeshBuilder::GetInstance()->GetMesh("Pistolicon")->textureID = LoadTGA("Image//pistol_icon.tga");
 
 	// Set up the Spatial Partition and pass it to the EntityManager to manage
 	CSpatialPartition::GetInstance()->Init(100, 100, 10, 10);
@@ -209,7 +218,7 @@ void SceneText::Init()
 
 
 	// Door object
-	m_doorLocation = Vector3(10.f, -10.f, 10.f);
+	m_doorLocation = Vector3(10.f, -10.f, 90.f);
 	GenericEntity* aDoor = Create::Asset("Door", m_doorLocation, Vector3(5.f, 5.f, 5.f));
 	aDoor->SetCollider(true);
 	aDoor->SetAABB(Vector3(0.2f, 0.2f, 0.2f), Vector3(-0.5f, -0.5f, -0.5f));
@@ -245,7 +254,7 @@ void SceneText::Init()
 	// FIRST CUBE
 	GenericEntity* aCube = Create::Entity("Stick", Vector3(-20.0f, -10.0f, -20.0f));
 	aCube->SetCollider(true);
-	aCube->SetAABB(Vector3(1.9f, 1.9f, 1.9f), Vector3(-1.9f, -1.9f, -1.9f));
+	aCube->SetAABB(Vector3(1.9f, 3.9f, 1.9f), Vector3(-1.9f, -3.9f, -1.9f));
 	//aCube->InitLOD("cube", "sphere", "cubeSG");
 
 
@@ -274,7 +283,7 @@ void SceneText::Init()
 		cout << "EntityManager::AddEntity: Unable to add to scene graph!" << endl;
 	}
 	
-
+	
 
 
 	/*GenericEntity* baseCube = Create::Asset("cube", Vector3(0.0f, 0.0f, 0.0f));
@@ -300,6 +309,8 @@ void SceneText::Init()
 	groundEntity = Create::Ground("GRASS_DARKGREEN", "GEO_GRASS_LIGHTGREEN");
 //	Create::Text3DObject("text", Vector3(0.0f, 0.0f, 0.0f), "DM2210", Vector3(10.0f, 10.0f, 10.0f), Color(0, 1, 1));
 	Create::Sprite2DObject("crosshair", Vector3(0.0f, 0.0f, 0.0f), Vector3(10.0f, 10.0f, 10.0f));
+	Create::Sprite2DObject("Pistolicon", Vector3(170.0f, -150.0f, 0.0f), Vector3(270.0f, 200.0f, 200.0f));
+	//fuckin hardcoded this mother fucking shit
 
 	SkyBoxEntity* theSkyBox = Create::SkyBox("SKYBOX_FRONT", "SKYBOX_BACK",
 											 "SKYBOX_LEFT", "SKYBOX_RIGHT",
@@ -422,7 +433,10 @@ void SceneText::Update(double dt)
 	playerInfo->Update(dt);
 
 	//camera.Update(dt); // Can put the camera into an entity rather than here (Then we don't have to write this)
-
+	//pls work
+	/*CameraEffects_One_O_One->pistolicon = MeshBuilder::GetInstance()->GenerateQuad("Pistolicon", Color(1, 1, 1), 1.f);
+	CameraEffects_One_O_One->pistolicon->textureID = LoadTGA("Image//pistol_icon.tga");*/
+	
 	GraphicsManager::GetInstance()->UpdateLights(dt);
 
 	std::ostringstream ss;

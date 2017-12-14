@@ -502,6 +502,11 @@ void CPlayerInfo::Update(double dt)
 	}
 }
 
+int CPlayerInfo::GetWeapon(void) const
+{
+	return m_iCurrentWeapon;
+}
+
 // Constrain the position within the borders
 void CPlayerInfo::Constrain(void)
 {
